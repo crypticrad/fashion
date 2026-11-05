@@ -1,0 +1,72 @@
+/* Remote font import MUST be first — CSS requires @import before all other rules. */
+@import url('https://api.fontshare.com/v2/css?f%5B%5D=satoshi@400,500,600,700,900&display=swap');
+@import 'tailwindcss';
+@import './typography.css';
+
+/*
+ * Typography presets are applied via dynamically-built class names
+ * (`heading-${type}-${weight}` in Heading.tsx, `body-${size}-${weight}` in
+ * Body.tsx), which Tailwind's source scanner can't see as literals. Force-generate
+ * every combination so the @utility presets always exist.
+ */
+@source inline("heading-{h1,h2,h3,h4,h5,h6}-{regular,semi500,semibold,bold}");
+@source inline("body-{extrasmall,small,normal,medium,large,extralarge}-{regular,semi500,semibold,bold}");
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: 'Satoshi', sans-serif;
+  --font-integral: 'Integral CF', sans-serif;
+
+  --animate-runner-26: runner 26s linear 0s infinite normal none running;
+  --animate-runner-34: runner-reverse 34s linear 0s infinite normal none running;
+  --animate-runner-20: runner 20s linear 0s infinite normal none running;
+  --animate-runner-30: runner-reverse 30s linear 0s infinite normal none running;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  } */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #000000;
+  box-shadow: inset 0 0 0 1000px #f0f0f0;
+  caret-color: #000000;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+@keyframes runner {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes runner-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

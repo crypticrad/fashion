@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+
+# pnpm blocks dependency build scripts by default. @parcel/watcher (pulled in by
+# sass) ships prebuilt binaries, so its install script isn't needed.
+allowBuilds:
+  '@parcel/watcher': false

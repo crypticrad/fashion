@@ -5,7 +5,8 @@ import type { UploadProps } from 'antd';
 import { motion } from 'motion/react';
 import { Body } from '@/components/Typography/Body';
 import { Icon } from '@/components/Icon';
-import { parse } from 'csv-parse/sync';
+// Browser build: the default 'csv-parse/sync' entry targets Node and uses `Buffer`.
+import { parse } from 'csv-parse/browser/esm/sync';
 import {
   ProductImportRow,
   UploadFormProps as Props
@@ -107,6 +108,8 @@ export const UploadForm = (_props: Props) => {
 
   const onImport = () => {
     if (!parsed?.rows) return;
+
+    console.log(parsed?.rows);
     // TODO(API): send validated rows to the bulk-product endpoint.
     void message.info('Bulk import API integration is pending.');
   };
@@ -172,7 +175,7 @@ export const UploadForm = (_props: Props) => {
                 Preview — {parsed.fileName}
               </Body>
               <Body type="small" color="rgba(0,0,0,0.5)" className="mt-0.5">
-                {parsed.rows.length} row{parsed.rows.length === 1 ? '' : 's'}{' '}
+                {parsed?.rows?.length} row{parsed.rows.length === 1 ? '' : 's'}{' '}
                 detected
               </Body>
             </div>

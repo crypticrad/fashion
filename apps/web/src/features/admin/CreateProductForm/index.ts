@@ -1,2 +1,6 @@
-export type { CreateProductFormProps } from './CreateProductForm.interface';
+export type {
+  CreateProductFormProps,
+  ProductFormInitialValues,
+  ProductFormValues
+} from './CreateProductForm.interface';
 export { CreateProductForm } from './CreateProductForm';

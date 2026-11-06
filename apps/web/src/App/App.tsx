@@ -5,18 +5,60 @@ import cn from './App.module.scss';
 import { AppProviders } from '@/components/AppProviders';
 import { Body } from '@/components/Typography/Body';
 
-const AdminLayout = lazy(() => import('@/layouts/AdminLayout').then((module) => ({ default: module.AdminLayout })));
-const AuthLayout = lazy(() => import('@/layouts/AuthLayout').then((module) => ({ default: module.AuthLayout })));
-const StorefrontLayout = lazy(() => import('@/layouts/StorefrontLayout').then((module) => ({ default: module.StorefrontLayout })));
-const AdminProductsPage = lazy(() => import('@/pages/AdminProductsPage').then((module) => ({ default: module.AdminProductsPage })));
-const AdminUploadPage = lazy(() => import('@/pages/AdminUploadPage').then((module) => ({ default: module.AdminUploadPage })));
-const AdminUsersPage = lazy(() => import('@/pages/AdminUsersPage').then((module) => ({ default: module.AdminUsersPage })));
-const CartPage = lazy(() => import('@/pages/CartPage').then((module) => ({ default: module.CartPage })));
-const CatalogPage = lazy(() => import('@/pages/CatalogPage').then((module) => ({ default: module.CatalogPage })));
-const HomePage = lazy(() => import('@/pages/HomePage').then((module) => ({ default: module.HomePage })));
-const LoginPage = lazy(() => import('@/pages/LoginPage').then((module) => ({ default: module.LoginPage })));
-const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((module) => ({ default: module.NotFoundPage })));
-const ProductPage = lazy(() => import('@/pages/ProductPage').then((module) => ({ default: module.ProductPage })));
+const AdminLayout = lazy(() =>
+  import('@/layouts/AdminLayout').then((module) => ({
+    default: module.AdminLayout
+  }))
+);
+const AuthLayout = lazy(() =>
+  import('@/layouts/AuthLayout').then((module) => ({
+    default: module.AuthLayout
+  }))
+);
+const StorefrontLayout = lazy(() =>
+  import('@/layouts/StorefrontLayout').then((module) => ({
+    default: module.StorefrontLayout
+  }))
+);
+const AdminProductsPage = lazy(() =>
+  import('@/pages/AdminProductsPage').then((module) => ({
+    default: module.AdminProductsPage
+  }))
+);
+const AdminUploadPage = lazy(() =>
+  import('@/pages/AdminUploadPage').then((module) => ({
+    default: module.AdminUploadPage
+  }))
+);
+const AdminUsersPage = lazy(() =>
+  import('@/pages/AdminUsersPage').then((module) => ({
+    default: module.AdminUsersPage
+  }))
+);
+const CartPage = lazy(() =>
+  import('@/pages/CartPage').then((module) => ({ default: module.CartPage }))
+);
+const CatalogPage = lazy(() =>
+  import('@/pages/CatalogPage').then((module) => ({
+    default: module.CatalogPage
+  }))
+);
+const HomePage = lazy(() =>
+  import('@/pages/HomePage').then((module) => ({ default: module.HomePage }))
+);
+const LoginPage = lazy(() =>
+  import('@/pages/LoginPage').then((module) => ({ default: module.LoginPage }))
+);
+const NotFoundPage = lazy(() =>
+  import('@/pages/NotFoundPage').then((module) => ({
+    default: module.NotFoundPage
+  }))
+);
+const ProductPage = lazy(() =>
+  import('@/pages/ProductPage').then((module) => ({
+    default: module.ProductPage
+  }))
+);
 
 export const App = (_props: Props) => (
   <div className={cn.app}>

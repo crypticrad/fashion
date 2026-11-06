@@ -1,0 +1,25 @@
+.productsTable {
+  min-width: 0;
+
+  :global {
+    .ant-table-cell {
+      &:first-child {
+        padding-inline-start: 24px;
+      }
+
+      &:last-child {
+        padding-inline-end: 24px;
+      }
+    }
+
+    .ant-table-pagination.ant-pagination {
+      margin: 0;
+      padding: 16px 24px;
+    }
+
+    // Keep "Showing x–y of z" on the left, pager + size switcher on the right.
+    .ant-pagination-total-text {
+      margin-inline-end: auto;
+    }
+  }
+}

@@ -14,9 +14,25 @@ import type { ThemeConfig } from 'antd';
 export const themeConfig: ThemeConfig = {
   token: {
     colorPrimary: '#000000',
-    fontFamily: "'Satoshi', sans-serif"
+    fontFamily: "'Satoshi', sans-serif",
+    // antd derives option/menu highlight tints from colorPrimary; with pure
+    // black that yields #333 behind near-black text. Pin them to light greys
+    // (used by Select, Dropdown, Menu, Cascader, Tree, ...).
+    controlItemBgHover: '#F5F5F5',
+    controlItemBgActive: '#F0F0F0',
+    controlItemBgActiveHover: '#E8E8E8'
   },
   components: {
+    // Admin list tables: white header, hairline row dividers, no column splits.
+    Table: {
+      headerBg: '#FFFFFF',
+      headerSplitColor: 'transparent',
+      headerBorderRadius: 0,
+      borderColor: 'rgba(0, 0, 0, 0.06)',
+      rowHoverBg: '#FAFAFA',
+      cellPaddingBlock: 15,
+      cellPaddingInline: 12
+    },
     Rate: {
       starColor: '#FFC633',
       starBg: 'rgba(0, 0, 0, 0.15)',

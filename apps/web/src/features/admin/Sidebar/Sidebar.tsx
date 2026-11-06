@@ -6,9 +6,9 @@ import { Icon } from '@/components/Icon';
 import { SidebarProps as Props } from './Sidebar.interface';
 
 const navItems = [
-  { label: 'Create Product', href: '/admin/products', icon: 'box outlined' },
-  { label: 'Bulk Upload', href: '/admin/upload', icon: 'upload outlined' },
-  { label: 'Users', href: '/admin/users', icon: 'users outlined' }
+  { label: 'Users', href: '/admin/users', icon: 'users outlined' },
+  { label: 'Products', href: '/admin/products', icon: 'box outlined' },
+  { label: 'Bulk Upload', href: '/admin/upload', icon: 'upload outlined' }
 ] as const;
 
 export const Sidebar = (_props: Props) => {
@@ -66,7 +66,12 @@ export const Sidebar = (_props: Props) => {
 
       <div className="flex items-center gap-2.75 border-t border-white/12 pt-4">
         <div className="flex size-9.5 shrink-0 items-center justify-center rounded-full bg-white">
-          <Body type="small" weight="bold" color="#000" className="leading-none">
+          <Body
+            type="small"
+            weight="bold"
+            color="#000"
+            className="leading-none"
+          >
             AD
           </Body>
         </div>

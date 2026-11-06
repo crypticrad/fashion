@@ -7,16 +7,19 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "pnpm --parallel --filter \"./apps/*\" dev",
-    "dev:web": "pnpm --filter @fashion/web dev",
-    "dev:api": "pnpm --filter @fashion/api dev",
-    "build": "pnpm -r build",
-    "build:web": "pnpm --filter @fashion/web build",
-    "build:api": "pnpm --filter @fashion/api build",
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=@fashion/web",
+    "dev:api": "turbo run dev --filter=@fashion/api",
+    "build": "turbo run build",
+    "build:web": "turbo run build --filter=@fashion/web",
+    "build:api": "turbo run build --filter=@fashion/api",
     "start:api": "pnpm --filter @fashion/api start:prod",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "test:e2e": "pnpm --filter @fashion/api test:e2e",
     "format": "pnpm -r format"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.10"
   }
 }

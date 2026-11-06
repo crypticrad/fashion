@@ -9,10 +9,13 @@ import cn from './AdminLayout.module.scss';
 export const AdminLayout = (_props: Props) => {
   const { pathname } = useLocation();
 
-  // TODO(API): protect admin routes once authentication/session endpoints exist.
-
   return (
-    <div className={classNames(cn.adminLayout, 'flex grow bg-[#F4F4F4] text-black')}>
+    <div
+      className={classNames(
+        cn.adminLayout,
+        'flex grow bg-[#F4F4F4] text-black'
+      )}
+    >
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col overflow-auto">
         <AdminNavbar />

@@ -7,8 +7,8 @@ import { AdminNavbarProps as Props } from './AdminNavbar.interface';
 
 const PAGE_COPY: Record<string, { title: string; subtitle: string }> = {
   '/admin/products': {
-    title: 'Create Product',
-    subtitle: 'Add a new item to your catalog'
+    title: 'Products',
+    subtitle: 'Manage the items in your catalog'
   },
   '/admin/upload': {
     title: 'Bulk Upload',

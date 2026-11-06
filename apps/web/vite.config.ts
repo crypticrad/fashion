@@ -1,29 +1,31 @@
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
-import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import babel from '@rolldown/plugin-babel';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'vite';
+import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Don't wipe the terminal: `pnpm dev` at the repo root shares it with the API.
+  clearScreen: false,
   plugins: [
     react(),
     babel({ presets: [reactCompilerPreset()] }),
-    tailwindcss(),
+    tailwindcss()
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      // Forward /api/* to the Nest API (apps/api) during development.
-      '/api': {
-        target: process.env.API_PROXY_TARGET ?? 'http://localhost:3000',
-        changeOrigin: true,
-      },
-    },
-  },
-})
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+  // server: {
+  //   port: 5173,
+  //   proxy: {
+  //     // Forward /api/* to the Nest API (apps/api) during development.
+  //     '/api': {
+  //       target: process.env.API_PROXY_TARGET ?? 'http://localhost:3000',
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
+});

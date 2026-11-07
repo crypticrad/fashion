@@ -8,6 +8,9 @@ async function bootstrap() {
   // proxy in production) can forward a single path prefix.
   app.setGlobalPrefix('api');
 
+  // Run onModuleDestroy hooks (e.g. closing the Prisma pool) on SIGTERM/SIGINT.
+  app.enableShutdownHooks();
+
   app.enableCors({
     origin: (process.env.CORS_ORIGIN ?? 'http://localhost:5173').split(','),
     credentials: true,

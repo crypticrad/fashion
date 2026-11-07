@@ -5,3 +5,18 @@ packages:
 # sass) ships prebuilt binaries, so its install script isn't needed.
 allowBuilds:
   '@parcel/watcher': false
+  '@prisma/engines': false
+  esbuild: true
+  prisma: false
+  workerd: false
+
+permissions:
+  '@prisma/orm-postgres':
+    skills: true
+  prisma:
+    skills: true
+
+skills:
+  dirs:
+    - .agent/skills
+    - .claude/skills

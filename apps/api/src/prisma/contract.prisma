@@ -1,0 +1,120 @@
+// use prisma-8
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  UNISEX
+  OTHERS
+}
+
+enum SIZE {
+  xxs
+  xs
+  s
+  m
+  l
+  xl
+  xxl
+  xxxl
+}
+
+enum Style {
+  CASUAL
+  FORMAL
+  PARTY
+  GYM
+}
+
+enum Category {
+  TSHIRTS
+  SHORTS
+  SHIRTS
+  HOODIE
+  JEANS
+  JACKETS
+  DRESSES
+  SKIRTS
+  TROUSERS
+  SWEATERS
+}
+
+model Rating {
+  id Int @id @default(autoincrement())
+  rating Decimal
+  product_id Int @unique
+  product Product @relation(fields: [product_id], references: [id])
+
+  @@map("ratings")
+}
+
+model Brand {
+  id Int @id @default(autoincrement())
+  brand_name String
+  products Product[]
+  createdAt DateTime @onCreate(now())
+  updatedAt DateTime? @onUpdate(now())
+
+  @@map("brands")
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  description String?
+  product_image String?
+  brand_id Int
+  brand Brand @relation(fields: [brand_id], references: [id])
+  cart_items CartItem[]
+  rating Rating?
+  createdAt DateTime @onCreate(now())
+  updatedAt DateTime? @onUpdate(now())
+  gender Gender[]
+  color String[]
+  size SIZE[]
+  price Decimal
+  style Style
+  category Category
+
+  @@map("products")
+}
+
+model CartItem {
+  id Int @id @default(autoincrement())
+  cart_id Int
+  cart Cart @relation(fields: [cart_id], references: [id])
+  product_id Int 
+  product Product @relation(fields: [product_id], references: [id])
+  count Int @default(1)
+  createdAt DateTime @onCreate(now())
+  updatedAt DateTime? @onUpdate(now())
+
+  @@unique([cart_id, product_id])
+  @@map("cartitem")
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+  user_id String @unique
+  user User @relation(fields: [user_id], references: [id])
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model User {
+  id String @id @onCreate(cuid(2))
+  email String @unique
+  first_name String 
+  last_name String
+  cart Cart?
+  role Role @default(USER)
+  createdAt DateTime @onCreate(now())
+  updatedAt DateTime? @onUpdate(now())
+
+  @@map("users")
+}

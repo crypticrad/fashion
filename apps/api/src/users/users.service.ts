@@ -11,10 +11,12 @@ export class UsersService {
     const users = await this.prisma.db.orm.public.User.all();
     return users;
   }
-  async listById(@Param('id') id: string) {
+  async listById(id: string) {
     return await this.prisma.db.orm.public.User.where({ id }).first();
   }
-
+  async listByEmail(email: string) {
+    return await this.prisma.db.orm.public.User.where({ email }).first();
+  }
   async create(user: CreateUserDto) {
     const password = await hash(user.password);
     return await this.prisma.db.orm.public.User.create({

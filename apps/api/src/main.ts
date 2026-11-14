@@ -24,6 +24,8 @@ async function bootstrap() {
   const openApiConfig = new DocumentBuilder()
     .setTitle('Fashion API')
     .setVersion('0.0.1')
+    // Adds the "Authorize" button; @Protected() marks which routes need it.
+    .addBearerAuth()
     .build();
   const openApiDoc = SwaggerModule.createDocument(app, openApiConfig);
   SwaggerModule.setup('api/docs', app, cleanupOpenApiDoc(openApiDoc));

@@ -3,9 +3,9 @@ import { User } from './user.ts';
 import { response } from './common.ts';
 
 const Auth = z.object({
-  user: User,
+  user: User.nullable(),
   access_token: z.jwt(),
-  refresh_token: z.jwt(),
+  refresh_token: z.string(),
   permissions: z.array(z.string()).nullable()
 });
 
@@ -14,17 +14,21 @@ export const RegisterRequest = User.pick({
   last_name: true,
   email: true,
   role: true
-}).extend({
-  password: z.string().min(8)
-});
+})
+  .extend({
+    password: z.string()
+  })
+  .partial({
+    role: true
+  });
 
 export const LoginRequest = RegisterRequest.pick({
   email: true,
   password: true
 });
 
-export const Login = response(Auth);
-export const Register = response(Auth);
+export const LoginResponse = response(Auth);
+export const RegisterResponse = response(Auth.pick({ user: true }));
 
-export type LoginResponse = z.infer<typeof Login>;
-export type RegisterResponse = z.infer<typeof Register>;
+export type LoginTypeResponse = z.infer<typeof LoginResponse>;
+export type RegisterTypeResponse = z.infer<typeof RegisterResponse>;

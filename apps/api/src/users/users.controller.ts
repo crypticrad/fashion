@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service.ts';
 import { ZodResponse } from 'nestjs-zod';
@@ -17,10 +16,10 @@ import {
   UserListDto,
   UserResponseDto,
 } from './users.dto.ts';
-import { AuthGuard } from '../guards/auth.guard.ts';
+import { Protected } from '../decorators/protected.decorator.ts';
 
 @Controller('/users')
-@UseGuards(AuthGuard)
+@Protected()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

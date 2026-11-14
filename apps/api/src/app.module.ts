@@ -5,6 +5,7 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
 import { PrismaModule } from './prisma/prisma.module.ts';
 import { CatalogueModule } from './catalogue/catalogue.module.js';
 import { UsersModule } from './users/users.module.ts';
+import { AuthModule } from './auth/auth.module.ts';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UsersModule } from './users/users.module.ts';
     PrismaModule,
     CatalogueModule,
     UsersModule,
+    AuthModule,
   ],
   providers: [
     // Validates every @Body/@Query/@Param typed with a createZodDto class.

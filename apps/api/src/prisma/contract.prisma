@@ -3,6 +3,7 @@
 enum Role {
   USER
   ADMIN
+  SELLER
 }
 
 enum Gender {
@@ -113,6 +114,7 @@ model User {
   last_name String
   cart Cart?
   role Role @default(USER)
+  password String?
   createdAt DateTime @onCreate(now())
   updatedAt DateTime? @onUpdate(now())
 

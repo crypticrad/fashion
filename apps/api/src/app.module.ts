@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
-import { UsersModule } from './users/users.module.js';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from './prisma/prisma.module.js';
+import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
+import { PrismaModule } from './prisma/prisma.module.ts';
+import { CatalogueModule } from './catalogue/catalogue.module.js';
+import { UsersModule } from './users/users.module.ts';
 
 @Module({
   imports: [
@@ -11,9 +12,14 @@ import { PrismaModule } from './prisma/prisma.module.js';
       isGlobal: true,
     }),
     PrismaModule,
+    CatalogueModule,
     UsersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    // Validates every @Body/@Query/@Param typed with a createZodDto class.
+    { provide: APP_PIPE, useClass: ZodValidationPipe },
+    // Checks responses of handlers marked @ZodSerializerDto against their schema.
+    { provide: APP_INTERCEPTOR, useClass: ZodSerializerInterceptor },
+  ],
 })
 export class AppModule {}

@@ -2,8 +2,26 @@
   "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/crates/oxc_linter/src/rules.rs",
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-floating-promises": "warn"
+    "@typescript-eslint/no-floating-promises": "warn",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "nestjs-zod",
+            "importNames": ["createZodDto"],
+            "message": "Import createZodDto from src/common/create-zod-dto.ts (codec mode on by default)."
+          }
+        ]
+      }
+    ]
   },
+  "overrides": [
+    {
+      "files": ["src/common/create-zod-dto.ts"],
+      "rules": { "no-restricted-imports": "off" }
+    }
+  ],
   "env": {
     "node": true
   }

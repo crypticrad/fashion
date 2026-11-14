@@ -1,38 +1,43 @@
-import { Injectable } from '@nestjs/common';
-import { User } from './interface/users.interface.js';
+import { Injectable, Param } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service.ts';
+import { CreateUserDto, UpdateUserDto } from './users.dto.ts';
+import { hash } from '@node-rs/argon2';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [];
+  constructor(private readonly prisma: PrismaService) {}
 
-  list() {
-    return this.users;
+  async list() {
+    const users = await this.prisma.db.orm.public.User.all();
+    return users;
+  }
+  async listById(@Param('id') id: string) {
+    return await this.prisma.db.orm.public.User.where({ id }).first();
   }
 
-  listById(id: string) {
-    return this.users.find((f) => f.id == id);
-  }
-
-  create(user: User) {
-    this.users.push(user);
-    return this.users;
-  }
-
-  update(user: User) {
-    this.users = this.users.map((f) => {
-      if (f.id == user.id) {
-        return {
-          ...f,
-          ...user,
-        };
-      }
-      return f;
+  async create(user: CreateUserDto) {
+    const password = await hash(user.password);
+    return await this.prisma.db.orm.public.User.create({
+      ...user,
+      password,
     });
-    return this.users;
   }
-
-  delete(id: string) {
-    this.users = this.users.filter((f) => f.id !== id);
-    return this.users;
+  async update(user: UpdateUserDto, id: string) {
+    return await this.prisma.db.orm.public.User.where({ id }).update({
+      ...user,
+    });
+  }
+  async delete(id: string) {
+    try {
+      const deleted = await this.prisma.db.orm.public.User.where({
+        id,
+      }).delete();
+      if (deleted) {
+        return `${deleted?.first_name} ${deleted?.last_name} has been deleted`;
+      }
+      return undefined;
+    } catch (error) {
+      return undefined;
+    }
   }
 }

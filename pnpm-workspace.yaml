@@ -1,5 +1,6 @@
 packages:
   - apps/*
+  - packages/*
 
 # pnpm blocks dependency build scripts by default. @parcel/watcher (pulled in by
 # sass) ships prebuilt binaries, so its install script isn't needed.
@@ -10,9 +11,14 @@ allowBuilds:
   prisma: false
   workerd: false
 
+minimumReleaseAgeExclude:
+  - '@nestjs/swagger@12.1.2'
+
 permissions:
   '@prisma/orm-postgres':
     skills: true
+  '@scarf/scarf':
+    build: true
   prisma:
     skills: true
 

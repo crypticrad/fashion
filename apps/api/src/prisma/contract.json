@@ -109,6 +109,10 @@
               {
                 "name": "ADMIN",
                 "value": "ADMIN"
+              },
+              {
+                "name": "SELLER",
+                "value": "SELLER"
               }
             ]
           },
@@ -744,6 +748,13 @@
                   "kind": "scalar"
                 }
               },
+              "password": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "role": {
                 "nullable": false,
                 "type": {
@@ -802,6 +813,9 @@
                 },
                 "last_name": {
                   "column": "last_name"
+                },
+                "password": {
+                  "column": "password"
                 },
                 "role": {
                   "column": "role"
@@ -1286,8 +1300,8 @@
             "users": {
               "checks": [
                 {
-                  "expression": "\"role\" IN ('USER', 'ADMIN')",
-                  "name": "users_role_check_1954e8c0",
+                  "expression": "\"role\" IN ('USER', 'ADMIN', 'SELLER')",
+                  "name": "users_role_check_e19eed9e",
                   "prefix": "users_role_check"
                 }
               ],
@@ -1319,6 +1333,11 @@
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
+                },
+                "password": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
                 },
                 "role": {
                   "codecId": "pg/text@1",
@@ -1389,7 +1408,8 @@
               "kind": "valueSet",
               "values": [
                 "USER",
-                "ADMIN"
+                "ADMIN",
+                "SELLER"
               ]
             },
             "SIZE": {
@@ -1420,7 +1440,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "1cc6491588e289d3d8640981b9206e3543a183c4ffd806d4e91bb97a7e484bff"
+    "storageHash": "8f7196cee44f46a64917eb00afdb3e69c702e22b41e0dc1ce089d91b76930fec"
   },
   "execution": {
     "executionHash": "bf9855092a60939a02bc3dc2b0f287d58020b447bd2432c0be548d9908199416",

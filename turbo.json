@@ -11,6 +11,7 @@
       "dependsOn": ["^check-types"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "persistent": true,
       "cache": false,
       "passThroughEnv": ["PORT", "CORS_ORIGIN", "API_PROXY_TARGET"]

@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'1cc6491588e289d3d8640981b9206e3543a183c4ffd806d4e91bb97a7e484bff'>;
+  StorageHashBase<'8f7196cee44f46a64917eb00afdb3e69c702e22b41e0dc1ce089d91b76930fec'>;
 export type ExecutionHash =
   ExecutionHashBase<'bf9855092a60939a02bc3dc2b0f287d58020b447bd2432c0be548d9908199416'>;
 export type ProfileHash =
@@ -317,7 +317,10 @@ type FieldTypeOverrides = {
         };
       };
       readonly User: {
-        readonly role: { readonly output: 'USER' | 'ADMIN'; readonly input: 'USER' | 'ADMIN' };
+        readonly role: {
+          readonly output: 'USER' | 'ADMIN' | 'SELLER';
+          readonly input: 'USER' | 'ADMIN' | 'SELLER';
+        };
       };
     };
   };
@@ -379,7 +382,10 @@ type ColumnTypeOverrides = {
       };
     };
     readonly users: {
-      readonly role: { readonly output: 'USER' | 'ADMIN'; readonly input: 'USER' | 'ADMIN' };
+      readonly role: {
+        readonly output: 'USER' | 'ADMIN' | 'SELLER';
+        readonly input: 'USER' | 'ADMIN' | 'SELLER';
+      };
     };
   };
 };
@@ -457,6 +463,7 @@ export namespace Models {
     first_name: FieldOutputTypes['public']['User']['first_name'];
     id: FieldOutputTypes['public']['User']['id'];
     last_name: FieldOutputTypes['public']['User']['last_name'];
+    password: FieldOutputTypes['public']['User']['password'];
     role: FieldOutputTypes['public']['User']['role'];
     updatedAt: FieldOutputTypes['public']['User']['updatedAt'];
     cart: public_Cart | null;
@@ -848,6 +855,12 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
+                readonly password: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
                 readonly role: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
@@ -894,7 +907,7 @@ type ContractBase = Omit<
             };
             readonly Role: {
               readonly kind: 'valueSet';
-              readonly values: readonly ['USER', 'ADMIN'];
+              readonly values: readonly ['USER', 'ADMIN', 'SELLER'];
             };
             readonly SIZE: {
               readonly kind: 'valueSet';
@@ -1278,6 +1291,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly password: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly role: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -1311,6 +1328,7 @@ type ContractBase = Omit<
                 readonly first_name: { readonly column: 'first_name' };
                 readonly id: { readonly column: 'id' };
                 readonly last_name: { readonly column: 'last_name' };
+                readonly password: { readonly column: 'password' };
                 readonly role: { readonly column: 'role' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
@@ -1347,6 +1365,7 @@ type ContractBase = Omit<
             readonly members: readonly [
               { readonly name: 'USER'; readonly value: 'USER' },
               { readonly name: 'ADMIN'; readonly value: 'ADMIN' },
+              { readonly name: 'SELLER'; readonly value: 'SELLER' },
             ];
           };
           readonly SIZE: {
@@ -1394,6 +1413,7 @@ type ContractBase = Omit<
           readonly Role: readonly [
             { readonly name: 'USER'; readonly value: 'USER' },
             { readonly name: 'ADMIN'; readonly value: 'ADMIN' },
+            { readonly name: 'SELLER'; readonly value: 'SELLER' },
           ];
           readonly SIZE: readonly [
             { readonly name: 'xxs'; readonly value: 'xxs' },

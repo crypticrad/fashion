@@ -19,7 +19,13 @@ const sha256 = (v: string) => createHash('sha256').update(v).digest('hex');
 @Injectable()
 export class AuthService {
   // [Todo]: Move the refresh token approach to database model
-  private readonly refresh_tokens: Map<string, {}> = new Map();
+  private readonly refresh_tokens: Map<
+    string,
+    {
+      userId: string;
+      expiresAt: number;
+    }
+  > = new Map();
 
   constructor(
     private readonly userService: UsersService,
@@ -38,10 +44,7 @@ export class AuthService {
 
   private consumeRefreshToken(token: string) {
     const hash = sha256(token);
-    const entry = this.refresh_tokens.get(hash) as {
-      userId: string;
-      expiresAt: number;
-    };
+    const entry = this.refresh_tokens.get(hash);
     this.refresh_tokens.delete(hash);
     if (!entry || entry.expiresAt < Date.now()) {
       throw new UnauthorizedException('Invalid refresh token');
@@ -98,5 +101,36 @@ export class AuthService {
     });
 
     return user;
+  }
+
+  async refresh(refresh_token: string): Promise<
+    | {
+        user: User;
+        access_token: string;
+        refresh_token: string;
+      }
+    | undefined
+  > {
+    const userId = this.consumeRefreshToken(refresh_token);
+    if (!userId) {
+      throw new UnauthorizedException('Invalid token');
+    }
+    const user = await this.prisma.db.orm.public.User.where({
+      id: userId,
+    }).first();
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return { user, ...this.createTokens(user) };
+  }
+
+  logout(access_token: string) {
+    const token = this.jtwService.verify(access_token) as Partial<User>;
+    for (const [hash, data] of this.refresh_tokens) {
+      if (data.userId == token.id) this.refresh_tokens.delete(hash);
+    }
+    return token?.id;
   }
 }

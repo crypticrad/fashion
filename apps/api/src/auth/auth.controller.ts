@@ -1,8 +1,18 @@
-import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ZodResponse } from 'nestjs-zod';
 import {
   LoginRequestDto,
   LoginResponseDto,
+  LogoutRequestDto,
+  LogoutResponseDto,
+  RefreshRequestDto,
   RegisterRequestDto,
   RegisterResponseDto,
 } from './auth.dto.ts';
@@ -51,6 +61,42 @@ export class AuthController {
     throw new NotFoundException('Unable to register user');
   }
 
-  @Get('/logout')
-  logout() {}
+  @Post('/refresh')
+  @ZodResponse({
+    type: LoginResponseDto,
+  })
+  async refreshToken(@Body() body: RefreshRequestDto) {
+    if (!body.refresh_token)
+      throw new NotFoundException('No refresh token found');
+    const response = await this.authService.refresh(body.refresh_token);
+    if (!response?.user) {
+      throw new UnauthorizedException('Unable to serve request');
+    }
+    return {
+      data: {
+        user: response?.user,
+        access_token: response?.access_token,
+        refresh_token: response?.refresh_token,
+        permissions: null,
+      },
+      message: 'tokens refreshed successfully',
+      success: true,
+    };
+  }
+
+  @Post('/logout')
+  @ZodResponse({
+    type: LogoutResponseDto,
+  })
+  logout(@Body() body: LogoutRequestDto) {
+    const response = this.authService.logout(body.access_token);
+    if (!response) throw new UnauthorizedException('Invalid user token');
+    return {
+      data: {
+        userId: response,
+      },
+      message: 'logged out succesfully',
+      success: true,
+    };
+  }
 }
